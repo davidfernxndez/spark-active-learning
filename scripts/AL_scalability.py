@@ -176,7 +176,7 @@ def main(argv):
     total_size = train_size + test_size
 
     # Compute the number of instances queried from the oracle at each iteration.
-    query_batch = int(train_size * QUERY_BATCH_FRACTION)
+    query_batch = int(total_size * TRAIN_TEST_SPLIT[0] * QUERY_BATCH_FRACTION)
 
     print("\n" + "=" * 60)
     print("EXPERIMENT SETUP")
@@ -236,10 +236,7 @@ def main(argv):
 
     # Limit the query batch to the number of instances currently available
     # in the unlabeled pool.
-    query_batch = min(
-        int(train_size * QUERY_BATCH_FRACTION),
-        unlabeled_size
-    )
+    query_batch = min(query_batch, unlabeled_size)
 
     if selection_method == "random":
         print("Random selection method started.")

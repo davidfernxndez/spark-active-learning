@@ -282,87 +282,113 @@ def plot_scalability(speed_up_filename, size_up_filename, scale_up_filename):
     # PLOT SCALABILITY GRAHPS
     # ============================================================
 
-    fig, axes = plt.subplots(
-        1,
-        3,
-        figsize=(18, 5)
+    # -----------
+    # SPEED UP
+    # -----------
+
+    plt.figure(figsize=(8, 5))
+
+    # Plot speed up for each dataset Size
+    for percentage_set in sorted(speed_up_mean["percentage_set"].unique()):
+        data = speed_up_mean[
+            speed_up_mean["percentage_set"] == percentage_set
+        ].sort_values("cores")
+
+        plt.plot(
+            data["cores"],
+            data["speed_up"],
+            marker="o",
+            label=f"Dataset Size {percentage_set}%"
+        )
+
+    # Lineal Speed Up
+    cores = sorted(speed_up_mean["cores"].unique())
+    plt.plot(
+        cores,
+        cores,
+        color="black",
+        linestyle="--",
+        marker="o",
+        label="Linear speed Up"
     )
 
-    methods = [
-        ("smart", "Uncertainty + K-means selection"),
-        ("random", "Random Selection")
-    ]
+    # Configuration
+    plt.xlabel("Number of Cores")
+    plt.ylabel("Speed-Up")
+    plt.title("Speed-Up scalability analysis")
+    plt.xticks(cores)
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
 
-    # -------------------------
-    # Speed-Up plot
-    # -------------------------
-    for method, label in methods:
-        method_df = speed_up_mean[
-            speed_up_mean["method"] == method
-        ]
+    # -----------
+    # SIZE UP
+    # -----------
+    plt.figure(figsize=(8, 5))
 
-        axes[0].plot(
-            method_df["cores"],
-            method_df["speed_up"],
+    # Plot Size Up for each number of cores
+    for cores in sorted(size_up_mean["cores"].unique()):
+        data = size_up_mean[
+            size_up_mean["cores"] == cores
+        ].sort_values("percentage_set")
+
+        plt.plot(
+            data["percentage_set"],
+            data["size_up"],
             marker="o",
-            label=label
+            label=f"{cores} cores Size-Up"
         )
 
-    axes[0].set_xlabel("Number of Cores")
-    axes[0].set_ylabel("Speed-Up")
-    axes[0].set_title("Speed-Up")
-    axes[0].grid(True)
-    axes[0].legend()
+    # Linear Size Up
+    percentage_set = sorted(size_up_mean["percentage_set"].unique())
 
-    # -------------------------
-    # Size-Up plot
-    # -------------------------
-    for method, label in methods:
-        method_df = size_up_mean[
-            size_up_mean["method"] == method
-        ]
-
-        axes[1].plot(
-            method_df["percentage_set"],
-            method_df["size_up"],
-            marker="o",
-            label=label
-        )
-
-    axes[1].set_xlabel("Dataset Size (%)")
-    axes[1].set_ylabel("Size-Up")
-    axes[1].set_title("Size-Up")
-    axes[1].grid(True)
-    axes[1].legend()
-
-    # -------------------------
-    # Scale-Up plot
-    # -------------------------
-    for method, label in methods:
-        method_df = scale_up_mean[
-            scale_up_mean["method"] == method
-        ]
-
-        axes[2].plot(
-            method_df["configuration"],
-            method_df["scale_up"],
-            marker="o",
-            label=label
-        )
-
-    axes[2].set_xlabel("Cores / Dataset Size")
-    axes[2].set_ylabel("Scale-Up")
-    axes[2].set_title("Scale-Up")
-    axes[2].tick_params(axis="x", rotation=45)
-    axes[2].grid(True)
-    axes[2].legend()
-
-    # Common title.
-    fig.suptitle(
-        "Active Learning Scalability Analysis",
-        fontsize=14
+    plt.plot(
+        percentage_set,
+        percentage_set / percentage_set[0],
+        color="black",
+        linestyle="--",
+        marker="o",
+        label="Linear Size Up"
     )
 
-    fig.tight_layout(rect=[0, 0, 1, 0.93])
+    plt.xlabel("Dataset Size (%)")
+    plt.ylabel("Size-Up")
+    plt.title("Size-Up scalability Analysis")
+    plt.xticks(percentage_set)
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
 
+
+    # -----------
+    # SCALE UP
+    # -----------
+
+    plt.figure(figsize=(8, 5))
+
+    plt.plot(
+        scale_up_mean["configuration"],
+        scale_up_mean["scale_up"],
+        marker="o",
+        label="Real Scale Up"
+    )
+
+    # Linear Scale-Up
+    plt.axhline(
+        y=1,
+        color="black",
+        linestyle="--",
+        label="Linear Scale Up"
+    )
+
+    # Configuration
+    plt.xlabel("Cores / Dataset Size")
+    plt.ylabel("Scale-Up")
+    plt.title("Scale-Up scalability analysis")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+
+    plt.tight_layout()
     plt.show()

@@ -245,7 +245,7 @@ def get_uncertainty_candidates(
     The candidate pool is obtained by applying a quantile-based threshold.
     The proportion of instances retained is defined as:
 
-        p = min(1.0, (alpha * B) / N_U)
+        p = min(1.0, (alpha * B) / |U_t|)
 
     and the corresponding uncertainty threshold is the (1 - p)-quantile.
     Spark's ``approxQuantile`` method is used to estimate this quantile in a
@@ -326,7 +326,7 @@ def get_uncertainty_candidates(
 def diversity_k_means_selection(candidates_df, train_df, B, sc, seed = RANDOM_SEED):
     """
 	Selects a diverse batch of B unlabeled instances from the uncertainty-based
-	candidate pool using K-Means, selecting the instance closest to each cluster
+	candidate pool using BisectingK-Means, selecting the instance closest to each cluster
 	centroid. 
 
     Cluster centroids are broadcast to the worker nodes so that distances can
@@ -377,21 +377,12 @@ def diversity_k_means_selection(candidates_df, train_df, B, sc, seed = RANDOM_SE
     print(f"\t- Running K-Means diversity selection with k={B}...")
 
     # Fit K-Means on the uncertainty-based candidate pool.
-    """
-    kmeans = KMeans(
-        k=B,
-        seed=seed,
-        featuresCol="features",
-        predictionCol="cluster_id",
-        maxIter=20,
-    )
-    """
     kmeans = BisectingKMeans(
         k=B,
         seed=seed,
         featuresCol="features",
         predictionCol="cluster_id",
-        maxIter=10,
+        maxIter=20,
     )
     kmeans_model = kmeans.fit(candidates_df)
     clustered_candidates_df = kmeans_model.transform(candidates_df)
@@ -430,7 +421,7 @@ def diversity_k_means_selection(candidates_df, train_df, B, sc, seed = RANDOM_SE
     )
 
     print(f"\t- Marking {B} selected instances as labeled in train_df...")
-
+    
     # Create a compact DataFrame containing only the IDs of the selected instances.
     selected_ids_df = closest_per_cluster_rdd.map(lambda x: (x[1][0],)).toDF(["selected_id"])
 

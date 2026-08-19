@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 # ============================================================
 # Project paths
 # ============================================================
@@ -34,24 +33,24 @@ RANDOM_SEED = 42
 # Train/Test percentages split
 TRAIN_TEST_SPLIT = [0.7, 0.3]
 
-# Fraction of the total dataset assigned to the initial labeled set (N_L).
+# Fraction of the total dataset assigned to the initial labeled set (L_0).
 #
-# Consequently, the initial unlabeled set (N_U) will contain the remaining
+# Consequently, the initial unlabeled set (U_0) will contain the remaining
 # fraction (1 - INITIAL_LABELED_FRACTION).
 #
 # Example:
-#   For a total dataset N = 700,000:
+#   For a training dataset |N_train| = 700,000:
 #   - INITIAL_LABELED_FRACTION = 0.05
-#   - Initial labeled set size (N_L) = 35,000
-#   - Initial unlabeled set size (N_U) = 665,000
+#   - Initial labeled set size (L_0) = 35,000
+#   - Initial unlabeled set size (U_0) = 665,000
 INITIAL_LABELED_FRACTION = 0.05
 
 # Fraction used to compute the active learning iteration budget (B):
-#  B = N * QUERY_BATCH_FRACTION
-# Represents the proportion of samples queried from the oracle relative to the total dataset size (N).
+#  B = |N_train| * QUERY_BATCH_FRACTION
+# Represents the proportion of samples queried from the oracle relative to the training dataset size (|N_train|).
 #
 # Example:
-#   For a total dataset N= 700,000 and QUERY_BATCH_FRACTION = 0.01:
+#   For a training dataset |N_train| = 700,000 and QUERY_BATCH_FRACTION = 0.01:
 #   - Annotation budget per iteration (B) = 7000 samples.
 QUERY_BATCH_FRACTION = 0.01
 
@@ -60,14 +59,8 @@ QUERY_BATCH_FRACTION = 0.01
 # filtered candidate pool  before diversity sampling.
 #
 # Determines the quantile filtering threshold q = 1 - p, where:
-# p = min(1.0, (UNCERTAINTY_CANDIDATE_FACTOR * B / N_U))
+# p = min(1.0, (UNCERTAINTY_CANDIDATE_FACTOR * B / U_t))
 UNCERTAINTY_CANDIDATE_FACTOR = 10.0
 
 # Relative error tolerance (epsilon) for approximate quantile estimation (q).
 UNCERTAINTY_QUANTILE_EPSILON = 0.001
-
-# ============================================================
-# Spark
-# ============================================================
-APP_NAME = "ActiveLearning"
-MASTER = "local[*]"
