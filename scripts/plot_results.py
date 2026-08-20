@@ -13,7 +13,7 @@ from IPython.display import display
 # Config variables
 from .config import RESULTS_DIR
 
-def plot_performance_results(file_name, custom_range = [0.6, 0.7]):
+def plot_performance_results(file_name, metric_name = "accuracy", custom_range = [0.6, 0.7]):
     """
     Displays Active Learning performance results as:
     - Comparison table shows the accuracy achieved by Random Selection
@@ -42,12 +42,12 @@ def plot_performance_results(file_name, custom_range = [0.6, 0.7]):
     # Reshape the results so that each selection strategy has its own column.
     comparison_df = (
         results_df[
-            ["method", "labeled_percentage", "accuracy"]
+            ["method", "labeled_percentage", metric_name]
         ]
         .pivot(
             index="labeled_percentage",
             columns="method",
-            values="accuracy"
+            values=metric_name
         )
         .reset_index()
     )
@@ -82,7 +82,7 @@ def plot_performance_results(file_name, custom_range = [0.6, 0.7]):
         # Full accuracy range.
         axes[0].plot(
             method_df["labeled_percentage"],
-            method_df["accuracy"],
+            method_df[metric_name],
             marker="o",
             label=label
         )
@@ -90,14 +90,14 @@ def plot_performance_results(file_name, custom_range = [0.6, 0.7]):
         # Zoomed accuracy range.
         axes[1].plot(
             method_df["labeled_percentage"],
-            method_df["accuracy"],
+            method_df[metric_name],
             marker="o",
             label=label
         )
 
     # Configure the full-scale plot.
     axes[0].set_xlabel("Labeled Percentage (%)")
-    axes[0].set_ylabel("Accuracy")
+    axes[0].set_ylabel(metric_name)
     axes[0].set_title("Full Accuracy Range")
     axes[0].set_ylim(0, 1)
     axes[0].grid(True)
@@ -105,7 +105,7 @@ def plot_performance_results(file_name, custom_range = [0.6, 0.7]):
 
     # Configure the zoomed-in plot.
     axes[1].set_xlabel("Labeled Percentage (%)")
-    axes[1].set_ylabel("Accuracy")
+    axes[1].set_ylabel(metric_name)
     axes[1].set_title("Detailed View")
     axes[1].set_ylim(custom_range[0], custom_range[1])
     axes[1].grid(True)
@@ -386,6 +386,8 @@ def plot_scalability(speed_up_filename, size_up_filename, scale_up_filename):
     # Configuration
     plt.xlabel("Cores / Dataset Size")
     plt.ylabel("Scale-Up")
+    plt.ylim([0,1.1])
+
     plt.title("Scale-Up scalability analysis")
     plt.grid(True, alpha=0.3)
     plt.legend()

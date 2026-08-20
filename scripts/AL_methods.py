@@ -12,7 +12,7 @@ import pyspark.sql.functions as sql_f
 
 # PySpark ML - Features, Models & Evaluation
 from pyspark.ml.feature import VectorAssembler, StandardScaler
-from pyspark.ml.clustering import KMeans, BisectingKMeans
+from pyspark.ml.clustering import BisectingKMeans
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 from pyspark.ml.functions import vector_to_array
 from pyspark.ml.linalg import Vectors

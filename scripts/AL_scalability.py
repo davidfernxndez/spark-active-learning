@@ -264,7 +264,7 @@ def main(argv):
     train_df.unpersist()
     train_df = new_train_df.cache()
 
-        
+
     # Recompute the number of labeled and unlabeled instances after the
     # oracle-labeling step (Materialize cache)
     stats = train_df.select(

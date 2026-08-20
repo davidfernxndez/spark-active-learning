@@ -2,13 +2,13 @@
 
 This directory contains the datasets used in the Active Learning experiments.
 
-The HIGGS datasets are **not included in the repository** due to their large size. They must be generated locally by executing the data preparation script provided in the repository.^
+The HIGGS datasets are **not included in the repository** due to their large size. They must be generated locally by executing the data preparation script provided in the repository.
 
 ## Dataset Information
 
 * **Dataset name:** HIGGS
 * **Source:** UCI Machine Learning Repository
-* **Dataset identifier:** HIGGS
+* **Dataset identifier:** 280
 * **Task:** Binary classification
 * **Number of instances:** 11,000,000
 * **Number of features:** 28
@@ -19,7 +19,7 @@ The HIGGS datasets are **not included in the repository** due to their large siz
 The dataset was originally introduced in the following publication:
 > Baldi, P., Sadowski, P., & Whiteson, D. (2014). Searching for exotic particles in high-energy physics with deep learning. *Nature Communications*, 5, 4308.
 
-The dataset is available through the UCI Machine Learning Repository under the **HIGGS** dataset identifier. The download URL used by this project is stored in the `DATASET_URL` variable in `scripts/config.py`.
+The dataset is available through the UCI Machine Learning Repository. The download URL used by this project is stored in the `DATASET_URL` variable in `scripts/config.py`.
 
 ## Dataset Generation
 
