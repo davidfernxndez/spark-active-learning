@@ -1,6 +1,6 @@
 """
 This script provides the main entry point for evaluating the scalability of
-the implemented Active Learning strategies in Spark
+the implemented Active Learning strategies in Spark.
 """
 
 # ==============================================================================

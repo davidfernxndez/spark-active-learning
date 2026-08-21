@@ -1,6 +1,7 @@
 """
-This module implements the methods used in the Spark Active Learning experiments
-for data loading, model training and evaluation, and instance selection.
+This module implements the methods required for the distributed Active Learning
+workflow in Apache Spark, including model training and evaluation, uncertainty - 
+and diversity-based instance selection and random selection.
 """
 
 # ==============================================================================
@@ -449,7 +450,7 @@ def diversity_k_means_selection(candidates_df, train_df, B, sc, seed = RANDOM_SE
     return updated_train_df
 
 
-def random_selection(train_df, B, seed= RANDOM_SEED):
+def random_selection(train_df, B, seed = RANDOM_SEED):
     """
     Randomly selects a batch of unlabeled instances and marks them as labeled.
 

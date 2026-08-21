@@ -55,14 +55,14 @@ def plot_performance_results(file_name, metric_name = "accuracy", custom_range =
     # Rename columns to provide descriptive names in the comparison table.
     comparison_df = comparison_df.rename(
         columns={
-            "random": "Random Selection",
-            "smart": "Uncertainty + K-means"
+            "random": "Random",
+            "smart": "Uncertainty + Diversity"
         }
     )
     # Round accuracy values to three decimal places for display.
     accuracy_columns = [
-        "Random Selection",
-        "Uncertainty + K-means"
+        "Random",
+        "Uncertainty + Diversity"
     ]
 
     comparison_df[accuracy_columns] = comparison_df[accuracy_columns].round(4)
@@ -74,7 +74,7 @@ def plot_performance_results(file_name, metric_name = "accuracy", custom_range =
 
     # Plot both selection strategies on each subplot.
     for method, label in [
-        ("smart", "Uncertainty + K-means selection"),
+        ("smart", "Uncertainty + Diversity selection"),
         ("random", "Random Selection")
     ]:
         method_df = results_df[results_df["method"] == method]
@@ -306,7 +306,7 @@ def plot_scalability(speed_up_filename, size_up_filename, scale_up_filename):
     plt.plot(
         cores,
         cores,
-        color="black",
+        color="dimgray",
         linestyle="--",
         marker="o",
         label="Linear speed Up"
@@ -346,7 +346,7 @@ def plot_scalability(speed_up_filename, size_up_filename, scale_up_filename):
     plt.plot(
         percentage_set,
         percentage_set / percentage_set[0],
-        color="black",
+        color="dimgray",
         linestyle="--",
         marker="o",
         label="Linear Size Up"
@@ -378,7 +378,7 @@ def plot_scalability(speed_up_filename, size_up_filename, scale_up_filename):
     # Linear Scale-Up
     plt.axhline(
         y=1,
-        color="black",
+        color="dimgray",
         linestyle="--",
         label="Linear Scale Up"
     )
