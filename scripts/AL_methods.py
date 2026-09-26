@@ -130,7 +130,7 @@ def load_and_preprocess_data(
     train_df, test_df = df.randomSplit(train_test_split, seed=seed)
     print("\t- Dataset split into training and test sets.") 
 
-    # Configure feature standardization.
+    # Configure feature standarization.
     scaler = StandardScaler(
         inputCol="features",
         outputCol="scaled_features",
