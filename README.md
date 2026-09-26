@@ -15,6 +15,16 @@
   <img src="https://img.shields.io/badge/MLlib-Spark-orange" alt="Spark MLlib">
 </p>
 
+## 📑 Table of Contents
+
+* [Overview](#-overview)
+* [Scalable Design](#-scalable-design)
+* [Key Results](#-key-results)
+* [Project Structure](#-project-structure)
+* [Dataset](#-dataset)
+* [Environment and Installation](#-environment-and-installation)
+* [Experimental Setup](#-experimental-setup)
+
 
 ## 📌 Overview
 
